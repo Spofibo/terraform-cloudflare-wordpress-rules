@@ -4,14 +4,12 @@ resource "cloudflare_zone_settings_override" "this" {
 
   settings {
     # Security
-    waf                = var.waf
     security_level     = var.security_level
     email_obfuscation  = var.email_obfuscation
     challenge_ttl      = var.challenge_ttl
     hotlink_protection = var.hotlink_protection
 
     # Modernization
-    http2 = var.http2
     http3 = var.http3
 
     # Caching
