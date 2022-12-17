@@ -165,3 +165,12 @@ variable "tls_settings" {
     always_use_https         = "on"     # https://developers.cloudflare.com/ssl/edge-certificates/additional-options/always-use-https/
   }
 }
+
+################################################################
+### Argo
+################################################################
+variable "argo_tiered_caching" {
+  description = "Enable or disable Argo tiered caching"
+  type        = bool
+  default     = false
+}
