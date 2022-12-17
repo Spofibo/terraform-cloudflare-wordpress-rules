@@ -1,9 +1,16 @@
+################################################################
 ### Filters
+################################################################
 resource "cloudflare_filter" "wpadmin_ip_restricted" {
   count       = var.waf_wpadmin_ip_restricted ? 1 : 0
   zone_id     = data.cloudflare_zones.this.zones[0].id
   description = "Allow access to WordPress admin only for a whitelisted IP address"
-  expression  = "(http.request.uri.path  \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.src ne ${var.waf_allowed_ip}"
+  expression  = <<EOF
+  (
+    (http.request.uri.path contains "/wp-login.php") or
+    (http.request.uri.path contains "/wp-admin/" and not http.request.uri.path contains "/wp-admin/admin-ajax.php" and not http.request.uri.path contains "/wp-admin/theme-editor.php")
+) and ip.src ne ${var.waf_allowed_ip}
+EOF
 }
 
 resource "cloudflare_filter" "wpadmin_country_restricted" {
@@ -56,7 +63,9 @@ resource "cloudflare_filter" "block_other_malicious_calls" {
 EOF
 }
 
-### Rules with filters
+################################################################
+### Rules linked to filters
+################################################################
 resource "cloudflare_firewall_rule" "wpadmin_ip_restricted" {
   count       = var.waf_wpadmin_ip_restricted ? 1 : 0
   zone_id     = data.cloudflare_zones.this.zones[0].id
