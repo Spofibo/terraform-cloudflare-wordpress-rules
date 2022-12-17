@@ -1,3 +1,6 @@
+################################################################
+### Setup
+################################################################
 variable "cf_api_token" {
   description = "value"
   type        = string
@@ -17,32 +20,32 @@ variable "redirect_to_www" {
 ################################################################
 ### WAF Rules
 ################################################################
-variable "wpadmin_ip_restricted" {
+variable "waf_wpadmin_ip_restricted" {
   description = "Determins if wp-admin is restricted by IP access"
   type        = bool
   default     = false
 }
 
-variable "allowed_ip" {
+variable "waf_allowed_ip" {
   description = "List of allowed IPs"
   type        = string
   default     = ""
 }
 
-variable "wpadmin_country_restricted" {
+variable "waf_wpadmin_country_restricted" {
   description = "Determins if wp-admin is restricted by country access"
   type        = bool
   default     = false
 }
 
-variable "allowed_countries" {
-  description = "List of allowed countries. Format must be as such: \"'UK' 'US'\"."
+variable "waf_allowed_countries" {
+  description = "List of allowed countries. i.e.: [\"UK\", \"US\"]"
   type        = list(any)
   default     = []
 }
 
-variable "block_other_malicious_calls" {
-  description = "value"
+variable "waf_block_other_malicious_calls" {
+  description = "Determins if a filter to block other malicious calls is implemented or not"
   type        = bool
   default     = false
 }

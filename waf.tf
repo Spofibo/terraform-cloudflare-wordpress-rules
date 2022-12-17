@@ -1,25 +1,25 @@
 ### Filters
 resource "cloudflare_filter" "wpadmin_ip_restricted" {
-  count       = var.wpadmin_ip_restricted ? 1 : 0
+  count       = var.waf_wpadmin_ip_restricted ? 1 : 0
   zone_id     = data.cloudflare_zones.this.zones[0].id
   description = "Allow access to WordPress admin only for a whitelisted IP address"
-  expression  = "(http.request.uri.path  \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.src ne ${var.allowed_ip}"
+  expression  = "(http.request.uri.path  \".*wp-login.php\" or http.request.uri.path ~ \".*xmlrpc.php\") and ip.src ne ${var.waf_allowed_ip}"
 }
 
 resource "cloudflare_filter" "wpadmin_country_restricted" {
-  count       = var.wpadmin_country_restricted ? 1 : 0
+  count       = var.waf_wpadmin_country_restricted ? 1 : 0
   zone_id     = data.cloudflare_zones.this.zones[0].id
   description = "Allow access to WordPress admin only for whitelisted countries"
   expression  = <<EOF
   (
     (http.request.uri.path contains "/wp-login.php") or
     (http.request.uri.path contains "/wp-admin/" and not http.request.uri.path contains "/wp-admin/admin-ajax.php" and not http.request.uri.path contains "/wp-admin/theme-editor.php")
-) and not ip.geoip.country in {${"${join(" ", [for s in var.allowed_countries : format("%q", s)])}"}}
+) and not ip.geoip.country in {${"${join(" ", [for s in var.waf_allowed_countries : format("%q", s)])}"}}
 EOF
 }
 
 resource "cloudflare_filter" "block_other_malicious_calls" {
-  count       = var.block_other_malicious_calls ? 1 : 0
+  count       = var.waf_block_other_malicious_calls ? 1 : 0
   zone_id     = data.cloudflare_zones.this.zones[0].id
   description = "Filter other malicious calls to WordPress"
   expression  = <<EOF
@@ -58,7 +58,7 @@ EOF
 
 ### Rules with filters
 resource "cloudflare_firewall_rule" "wpadmin_ip_restricted" {
-  count       = var.wpadmin_ip_restricted ? 1 : 0
+  count       = var.waf_wpadmin_ip_restricted ? 1 : 0
   zone_id     = data.cloudflare_zones.this.zones[0].id
   description = "Allow wp-admin access to an IP address"
   filter_id   = cloudflare_filter.wpadmin_ip_restricted[0].id
@@ -66,7 +66,7 @@ resource "cloudflare_firewall_rule" "wpadmin_ip_restricted" {
 }
 
 resource "cloudflare_firewall_rule" "wpadmin_country_restricted" {
-  count       = var.wpadmin_country_restricted ? 1 : 0
+  count       = var.waf_wpadmin_country_restricted ? 1 : 0
   zone_id     = data.cloudflare_zones.this.zones[0].id
   description = "Allow wp-admin access to certain countries"
   filter_id   = cloudflare_filter.wpadmin_country_restricted[0].id
@@ -74,7 +74,7 @@ resource "cloudflare_firewall_rule" "wpadmin_country_restricted" {
 }
 
 resource "cloudflare_firewall_rule" "block_other_malicious_calls" {
-  count       = var.block_other_malicious_calls ? 1 : 0
+  count       = var.waf_block_other_malicious_calls ? 1 : 0
   zone_id     = data.cloudflare_zones.this.zones[0].id
   description = "Block other malicious calls"
   filter_id   = cloudflare_filter.block_other_malicious_calls[0].id
