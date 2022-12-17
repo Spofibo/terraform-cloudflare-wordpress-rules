@@ -22,6 +22,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [cloudflare_argo.this](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/argo) | resource |
 | [cloudflare_filter.block_other_malicious_calls](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/filter) | resource |
 | [cloudflare_filter.wpadmin_country_restricted](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/filter) | resource |
 | [cloudflare_filter.wpadmin_ip_restricted](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/filter) | resource |
@@ -37,10 +38,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_allowed_countries"></a> [allowed\_countries](#input\_allowed\_countries) | List of allowed countries. Format must be as such: "'UK' 'US'". | `list(any)` | `[]` | no |
-| <a name="input_allowed_ip"></a> [allowed\_ip](#input\_allowed\_ip) | List of allowed IPs | `string` | `""` | no |
+| <a name="input_argo_tiered_caching"></a> [argo\_tiered\_caching](#input\_argo\_tiered\_caching) | Enable or disable Argo tiered caching | `bool` | `false` | no |
 | <a name="input_automatic_https_rewrites"></a> [automatic\_https\_rewrites](#input\_automatic\_https\_rewrites) | value | `string` | `"on"` | no |
-| <a name="input_block_other_malicious_calls"></a> [block\_other\_malicious\_calls](#input\_block\_other\_malicious\_calls) | value | `bool` | `false` | no |
 | <a name="input_brotli"></a> [brotli](#input\_brotli) | https://blog.cloudflare.com/brotli-compression-using-a-reduced-dictionary/ | `string` | `"on"` | no |
 | <a name="input_cache_level"></a> [cache\_level](#input\_cache\_level) | value | `string` | `"aggressive"` | no |
 | <a name="input_cf_api_token"></a> [cf\_api\_token](#input\_cf\_api\_token) | value | `string` | n/a | yes |
@@ -55,8 +54,11 @@ No modules.
 | <a name="input_security_header"></a> [security\_header](#input\_security\_header) | value | <pre>object({<br>    enabled            = bool<br>    preload            = bool<br>    include_subdomains = bool<br>    nosniff            = bool<br>    max_age            = number<br>  })</pre> | <pre>{<br>  "enabled": true,<br>  "include_subdomains": true,<br>  "max_age": 2630000,<br>  "nosniff": true,<br>  "preload": true<br>}</pre> | no |
 | <a name="input_security_level"></a> [security\_level](#input\_security\_level) | value | `string` | `"medium"` | no |
 | <a name="input_tls_settings"></a> [tls\_settings](#input\_tls\_settings) | General SSL/TLS settings | <pre>object({<br>    ssl                      = string<br>    tls_1_3                  = string<br>    min_tls_version          = string<br>    automatic_https_rewrites = string<br>    opportunistic_encryption = string<br>    always_use_https         = string<br>  })</pre> | <pre>{<br>  "always_use_https": "on",<br>  "automatic_https_rewrites": "on",<br>  "min_tls_version": "1.2",<br>  "opportunistic_encryption": "on",<br>  "ssl": "strict",<br>  "tls_1_3": "on"<br>}</pre> | no |
-| <a name="input_wpadmin_country_restricted"></a> [wpadmin\_country\_restricted](#input\_wpadmin\_country\_restricted) | Determins if wp-admin is restricted by country access | `bool` | `false` | no |
-| <a name="input_wpadmin_ip_restricted"></a> [wpadmin\_ip\_restricted](#input\_wpadmin\_ip\_restricted) | Determins if wp-admin is restricted by IP access | `bool` | `false` | no |
+| <a name="input_waf_allowed_countries"></a> [waf\_allowed\_countries](#input\_waf\_allowed\_countries) | List of allowed countries. i.e.: ["UK", "US"] | `list(any)` | `[]` | no |
+| <a name="input_waf_allowed_ip"></a> [waf\_allowed\_ip](#input\_waf\_allowed\_ip) | List of allowed IPs | `string` | `""` | no |
+| <a name="input_waf_block_other_malicious_calls"></a> [waf\_block\_other\_malicious\_calls](#input\_waf\_block\_other\_malicious\_calls) | Determins if a filter to block other malicious calls is implemented or not | `bool` | `false` | no |
+| <a name="input_waf_wpadmin_country_restricted"></a> [waf\_wpadmin\_country\_restricted](#input\_waf\_wpadmin\_country\_restricted) | Determins if wp-admin is restricted by country access | `bool` | `false` | no |
+| <a name="input_waf_wpadmin_ip_restricted"></a> [waf\_wpadmin\_ip\_restricted](#input\_waf\_wpadmin\_ip\_restricted) | Determins if wp-admin is restricted by IP access | `bool` | `false` | no |
 
 ## Outputs
 
