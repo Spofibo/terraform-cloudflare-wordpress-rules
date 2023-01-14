@@ -50,6 +50,12 @@ variable "waf_block_other_malicious_calls" {
   default     = false
 }
 
+variable "waf_block_bad_bots" {
+  description = "Determins if a filter to block bad bots calls is implemented or not"
+  type        = bool
+  default     = false
+}
+
 ################################################################
 ### Zone Settings
 ################################################################

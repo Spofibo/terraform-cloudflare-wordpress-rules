@@ -63,6 +63,101 @@ resource "cloudflare_filter" "block_other_malicious_calls" {
 EOF
 }
 
+resource "cloudflare_filter" "bad_bots" {
+  count       = var.waf_block_bad_bots ? 1 : 0
+  zone_id     = data.cloudflare_zones.this.zones[0].id
+  description = "Filter other malicious calls to WordPress"
+  #   expression  = <<EOF
+  # (http.user_agent contains "${") or 
+  # EOF
+  expression = <<EOF
+(http.user_agent contains "?%00") or 
+(http.user_agent contains "$[") or 
+(http.user_agent contains "absinthe") or 
+(http.user_agent contains "AhrefsBot") or 
+(http.user_agent contains "ALittle") or 
+(http.user_agent contains "baidu") or 
+(http.user_agent contains "BFAC") or 
+(http.user_agent contains "/bin/bash") or 
+(http.user_agent contains "brutus") or 
+(http.user_agent contains "bsqlbf") or 
+(lower(http.user_agent) contains "curl") or 
+(http.user_agent contains "coccocbot") or 
+(http.user_agent contains "commix") or 
+(http.user_agent contains "crimscanner") or 
+(http.user_agent contains "DavClnt") or 
+(http.user_agent contains "datacha0s") or 
+(http.user_agent contains "dirbuster") or 
+(http.user_agent contains "DnyzBot") or 
+(http.user_agent contains "domino") or 
+(http.user_agent contains "DotBot") or 
+(http.user_agent contains "dotdotpwn") or 
+(http.user_agent contains "dragostea") or 
+(http.user_agent contains "eval(") or 
+(http.user_agent contains "env:") or 
+(http.user_agent contains "fhscan") or 
+(http.user_agent contains "floodgate") or 
+(lower(http.user_agent) contains "fuzz") or 
+(http.user_agent contains "get-minimal") or 
+(http.user_agent contains "gobuster") or 
+(http.user_agent contains "gootkit") or 
+(http.user_agent contains "grabber") or 
+(http.user_agent contains "grendel") or 
+(http.user_agent contains "GRequest") or 
+(http.user_agent contains "eadless") or 
+(http.user_agent contains "havij") or 
+(http.user_agent contains "Hello") or 
+(http.user_agent contains "http-client") or 
+(http.user_agent contains "hydra") or 
+(http.user_agent contains "jdni") or 
+(http.user_agent contains "Jorgee") or 
+(http.user_agent contains "nowledge") or 
+(http.user_agent contains "ldap") or 
+(http.user_agent contains "lobster") or 
+(http.user_agent contains "Lua") or 
+(http.user_agent contains "lx71") or 
+(http.user_agent contains "masscan") or 
+(http.user_agent contains "mail.ru") or 
+(http.user_agent contains "mea pentru") or 
+(http.user_agent contains "metis") or 
+(http.user_agent contains "Protocol Discovery") or 
+(http.user_agent contains "morfeus") or 
+(http.user_agent contains "mysqloit") or 
+(http.user_agent contains "My User Agent") or 
+(http.user_agent contains "nasl") or 
+(http.user_agent contains "NetSystemsResearch") or 
+(http.user_agent contains "Nikto") or 
+(http.user_agent contains "Nimbostratus") or 
+(http.user_agent contains "nmap") or 
+(http.user_agent contains "Nuclei") or 
+(http.user_agent contains "openvas") or 
+(http.user_agent contains "pangolin") or 
+(http.user_agent contains "PetalBot") or 
+(http.user_agent contains "plesk") or 
+(lower(http.user_agent) contains "python") or 
+(http.user_agent contains "QQGameHall") or 
+(http.user_agent contains "ReactorNetty") or 
+(http.user_agent contains "RestSharp") or 
+(http.user_agent contains "revolt") or 
+(http.user_agent contains "Scrapy") or 
+(http.user_agent contains "SeznamBot") or 
+(http.user_agent contains "Sogou") or 
+(http.user_agent contains "spbot") or 
+(http.user_agent contains "springenwerk") or 
+(http.user_agent contains "sqlmap") or 
+(http.user_agent contains "sqlninja") or 
+(http.user_agent contains "Uptimebot") or 
+(http.user_agent contains "vega/") or 
+(http.user_agent contains "w3af") or 
+(http.user_agent contains "WebDAV-MiniRedir") or 
+(http.user_agent contains "webshag") or 
+(http.user_agent contains "WinHttp.WinHttpRequest") or 
+(http.user_agent contains "wp_is_mobile") or 
+(http.user_agent contains "YandexBot") or 
+(lower(http.user_agent) contains "zmeu")
+EOF
+}
+
 ################################################################
 ### Rules linked to filters
 ################################################################
