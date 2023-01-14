@@ -1,5 +1,12 @@
-# terraform-cloudflare-wordpress
-Configure firewall and page rules on Cloudflare for a Wordpress domain
+# Configure Wordpress specific rules on Cloudflare via Terraform
+
+
+Confgure WordPress specific performance, redirect (www to non-www, or non-www to www), and WAF (security)
+
+## Credits
+
+* https://www.kazimer.com/how-to-protect-wordpress-with-Cloudflare-firewall-rules/
+* https://gridpane.com/blog/cloudflare-firewall-rules-for-securing-wordpress-websites/
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -23,6 +30,7 @@ No modules.
 | Name | Type |
 |------|------|
 | [cloudflare_argo.this](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/argo) | resource |
+| [cloudflare_filter.bad_bots](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/filter) | resource |
 | [cloudflare_filter.block_other_malicious_calls](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/filter) | resource |
 | [cloudflare_filter.wpadmin_country_restricted](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/filter) | resource |
 | [cloudflare_filter.wpadmin_ip_restricted](https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/filter) | resource |
@@ -56,6 +64,7 @@ No modules.
 | <a name="input_tls_settings"></a> [tls\_settings](#input\_tls\_settings) | General SSL/TLS settings | <pre>object({<br>    ssl                      = string<br>    tls_1_3                  = string<br>    min_tls_version          = string<br>    automatic_https_rewrites = string<br>    opportunistic_encryption = string<br>    always_use_https         = string<br>  })</pre> | <pre>{<br>  "always_use_https": "on",<br>  "automatic_https_rewrites": "on",<br>  "min_tls_version": "1.2",<br>  "opportunistic_encryption": "on",<br>  "ssl": "strict",<br>  "tls_1_3": "on"<br>}</pre> | no |
 | <a name="input_waf_allowed_countries"></a> [waf\_allowed\_countries](#input\_waf\_allowed\_countries) | List of allowed countries. i.e.: ["UK", "US"] | `list(any)` | `[]` | no |
 | <a name="input_waf_allowed_ip"></a> [waf\_allowed\_ip](#input\_waf\_allowed\_ip) | List of allowed IPs | `string` | `""` | no |
+| <a name="input_waf_block_bad_bots"></a> [waf\_block\_bad\_bots](#input\_waf\_block\_bad\_bots) | Determins if a filter to block bad bots calls is implemented or not | `bool` | `false` | no |
 | <a name="input_waf_block_other_malicious_calls"></a> [waf\_block\_other\_malicious\_calls](#input\_waf\_block\_other\_malicious\_calls) | Determins if a filter to block other malicious calls is implemented or not | `bool` | `false` | no |
 | <a name="input_waf_wpadmin_country_restricted"></a> [waf\_wpadmin\_country\_restricted](#input\_waf\_wpadmin\_country\_restricted) | Determins if wp-admin is restricted by country access | `bool` | `false` | no |
 | <a name="input_waf_wpadmin_ip_restricted"></a> [waf\_wpadmin\_ip\_restricted](#input\_waf\_wpadmin\_ip\_restricted) | Determins if wp-admin is restricted by IP access | `bool` | `false` | no |
