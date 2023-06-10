@@ -13,13 +13,14 @@ Confgure WordPress specific performance, redirect (www to non-www, or non-www to
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 3.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.2 |
+| <a name="requirement_cloudflare"></a> [cloudflare](#requirement\_cloudflare) | ~> 4.7 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 3.0 |
+| <a name="provider_cloudflare"></a> [cloudflare](#provider\_cloudflare) | ~> 4.7 |
 
 ## Modules
 
